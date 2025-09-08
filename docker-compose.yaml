@@ -149,7 +149,8 @@ services:
     volumes:
       # - ./configs/nomad.yaml:/app/nomad.yaml
       - ./.volumes/fs:/app/.volumes/fs
-      - /var/run/docker.sock:/var/run/docker.sock
+      # mount Docker socket (Windows pipe or Linux socket). Override DOCKER_SOCK on Windows.
+      - "${DOCKER_SOCK:-/var/run/docker.sock}:/var/run/docker.sock"
     command: python -m nomad.cli admin run hub
     healthcheck:
       test:
